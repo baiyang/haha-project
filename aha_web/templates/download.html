@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block body %}     
+    <div>
+        <a href="/"><h1 class="col-sm-3">哈哈电影搜索</h1> </a> 
+        <form id="t_form_search" class="col-sm-8 form-inline" style="padding-top:24px;" role="form"> 
+            <div class="form-group">
+                <input class="form-control" name="t_keyword" placeholder="{{ s["t_keyword"] }}" />
+            </div>
+            <button type="submit" class="btn btn-default">摸我一下</button> 
+        </form>
+        <div class="clearfix"></div> 
+    </div>
+    <hr />
+
+    <div>
+        <ul class="list-unstyled">        
+        <blockquote>
+            <li> 
+                <p><label>{{desc.name}}</label> <a href="magnet:?xt=urn:btih:{{ desc.hash_info }}">迅雷下载</a></p> 
+                <p><label>大小: {{ desc.size }} </label><label>发现时间: {{ desc.found_time }}</label></p> 
+            </li>     
+        </blockquote>
+        </ul>
+        <ul>
+            {% for i in files %} 
+                <li>
+                    <p>文件名: {{ i.file_name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 大小: {{i.size}}</p> 
+                </li>
+            {% end %} 
+        </ul>
+    </div>     
+{% end %} 
+
+{% block bottom %}
+<script type="text/javascript">
+$(function() {
+
+    $("#t_form_search").on("submit", function( e ){
+        var t_keyword =$(this).serialize();
+        window.location.href="/search?" + t_keyword;
+        e.preventDefault();
+    });
+
+}); 
+</script> 
+{% end %} 

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block body %}     
+    <div>
+        <a href="/" ><h1 class="col-sm-3">哈哈电影搜索</h1></a> 
+        <form id="t_form_search" class="col-sm-8 form-inline" style="padding-top:24px;" role="form"> 
+            <div class="form-group">
+                <input class="form-control" name="t_keyword" placeholder="{{ s["t_keyword"] }}" />
+            </div>
+            <button type="submit" class="btn btn-default">摸我一下</button> 
+        </form>
+        <div class="clearfix"></div> 
+    </div>
+    <hr />
+    <div>
+        <ul class="list-unstyled">
+            {% for i in items %} 
+                <blockquote>
+                    <p class="lead">{{ i.name }} <a href="/get?t_hash={{ i.hash_info }}&t_keyword={{ s["t_keyword"] }}">下载</a></p>
+                    <p>  <small>大小: {{ i.size }} 出现时间: {{ i.create_time }} 发现时间: {{ i.found_time }}</small>
+                    </p> 
+                </blockquote>
+            {% end %} 
+        </ul>
+        <ul class="pagination">
+            {% if s["t_page"] == 0 %} 
+                <li class="disable"><a href="#">&laquo;</a></li>
+            {% else %}
+                <li><a href="/search?t_keyword={{s["t_keyword"]}}&page={{s["t_page"]-1}}">&laquo;</a></li>  
+            {% end %} 
+            {% for i in xrange(s["t_page_num"] + 1) %} 
+                {% if i == s["t_page"] %} 
+                    <li class="active"><a href="/search?t_keyword={{s["t_keyword"]}}&page={{i}}">{{i+1}}</a></li>
+                {% else %}
+                    <li><a href="/search?t_keyword={{s["t_keyword"]}}&page={{i}}">{{i+1}}</a></li>
+                {% end %} 
+            {% end %} 
+            {% if s["t_page"] == s["t_page_num"] %}
+                <li class="disable"><a href="#">&raquo;</a></li>
+            {% else %}
+                <li><a href="/search?t_keyword={{s["t_keyword"]}}&page={{s["t_page"]+1}}">&raquo;</a></li>
+            {% end %} 
+        </ul> 
+    </div>     
+{% end %} 
+
+{% block bottom %}
+<script type="text/javascript">
+$(function() {
+
+    $("#t_form_search").on("submit", function( e ){
+        var t_keyword =$(this).serialize();
+        window.location.href="/search?" + t_keyword;
+        e.preventDefault();
+    });
+
+}); 
+</script> 
+{% end %} 
